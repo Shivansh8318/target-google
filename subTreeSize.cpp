@@ -11,6 +11,7 @@ using namespace std;
 int n;
 vector<vector<int>> g;
 vector<int> subTreeSz; 
+vector<int> centroid;
 
 void dfs(int nn,int p){
     subTreeSz[nn]=1;
@@ -21,9 +22,32 @@ void dfs(int nn,int p){
         }
     }
 }
+void findcentroid(int nn,int p){
+    subTreeSz[nn]=1;
+    for(auto x:g[nn]){
+        if(x!=p){
+            dfs(x,nn);
+            subTreeSz[nn]+=subTreeSz[x];
+        }
+    }
+    bool iscentroid=true;
+    for(auto x:g[nn]){
+        if(x!=p){
+            if(2*(subTreeSz[x])>n) iscentroid=false;
+        }
+    }
+    if(iscentroid){
+        if(2*(n-subTreeSz[nn])>n) iscentroid=false;
+    }
+    if(iscentroid){
+        centroid.push_back(nn);
+    }
+    
+}
 void solve() {
     cin>>n;
     g.resize(n+1);
+    centroid.resize(n+1);
     subTreeSz.resize(n+1);
     rep(i,0,n-1){
         int a,b;
