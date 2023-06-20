@@ -6,7 +6,7 @@ for(auto x:v)
   }
   else{
     auto it=lower_bound(all(v),x);
-    *it=v;
+    *it=x;
     }
   cout<<soln.size();
 }
